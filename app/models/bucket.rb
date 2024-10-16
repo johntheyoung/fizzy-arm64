@@ -1,5 +1,5 @@
 class Bucket < ApplicationRecord
-  include Accessible
+  include Accessible, Views
 
   belongs_to :account
   belongs_to :creator, class_name: "User", default: -> { Current.user }

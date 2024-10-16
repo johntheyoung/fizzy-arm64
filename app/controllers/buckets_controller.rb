@@ -2,7 +2,7 @@ class BucketsController < ApplicationController
   before_action :set_bucket, except: %i[ index new create ]
 
   def index
-    @buckets = Current.user.buckets.all
+    @buckets = (Current.user.buckets.all + Current.user.bucket_views.all).sort_by(&:updated_at)
   end
 
   def new
@@ -10,7 +10,7 @@ class BucketsController < ApplicationController
   end
 
   def create
-    @bucket = Current.account.buckets.create!(bucket_params)
+    @bucket = Current.account.buckets.create! bucket_params
     redirect_to bucket_bubbles_url(@bucket)
   end
 

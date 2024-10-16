@@ -19,8 +19,8 @@
 <% end %>
 
 <section class="windshield flex-inline flex-wrap gap justify-center align-end" style="view-transition-name: windshield_<%= @bucket.id %>">
-  <% if @bubbles.ordered_by_activity.any? %>
-    <%= render partial: "bubbles/bubble", collection: @bubbles.ordered_by_activity.limit(10) %>
+  <% if @bubbles.any? %>
+    <%= render partial: "bubbles/bubble", collection: @bubbles.limit(10) %>
   <% else %>
     <p><strong>Nothing here.</strong></p>
   <% end %>
@@ -37,6 +37,6 @@
   </header>
 
   <ul class="unpad margin-none flex flex-column txt-align-start center">
-    <%= render partial: "bubbles/list/bubble", collection: @bubbles.ordered_by_activity %>
+    <%= render partial: "bubbles/list/bubble", collection: @bubbles %>
   </ul>
 </section>

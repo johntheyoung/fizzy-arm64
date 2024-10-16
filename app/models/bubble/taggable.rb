@@ -5,6 +5,6 @@ module Bubble::Taggable
     has_many :taggings, dependent: :destroy
     has_many :tags, through: :taggings
 
-    scope :tagged_with, ->(tag) { joins(:taggings).where(taggings: { tag: tag }) }
+    scope :tagged_with, ->(tags) { joins(:taggings).where(taggings: { tag: tags }) }
   end
 end

@@ -1,21 +1,18 @@
 <h1 class="txt-large">
   <div class="filter align-center gap-half" data-controller="dialog" data-action="keydown.esc->dialog#close click@document->dialog#closeOnClickOutside">
     <button class="btn btn--plain filter__button" data-action="click->dialog#toggle" data-dialog-modal-value="true">
-      <% if params[:popped] %>
-        Popped
-      <% else %>
-        Most active
-      <% end %>
+      <%= main_filter_text %>
     </button>
 
     <dialog class="filter__popup panel fill-white shadow" data-dialog-target="dialog">
       <menu class="filter__menu unpad margin-none">
-        <li><%= link_to "Most active", bucket_bubbles_path(bucket, bubble_filter_params.without(:popped)), class: "filter__button" %></li>
-        <li><a href="#" class="filter__button">Most discussed</a></li>
-        <li><a href="#" class="filter__button">Most boosted</a></li>
-        <li><a href="#" class="filter__button">Newest</a></li>
-        <li><a href="#" class="filter__button">Oldest</a></li>
-        <li><%= link_to "Popped", bucket_bubbles_path(bucket, bubble_filter_params.merge(popped: true)), class: "filter__button" %></li>
+        <% Bucket::View::ORDERS.each do |key, value| %>
+          <li><%= link_to value.upcase_first, bucket_bubbles_path(bucket, bubble_filter_params.merge(order_by: key, status: nil)), class: "filter__button" %></li>
+        <% end %>
+
+        <% Bucket::View::STATUSES.each do |key, value| %>
+          <li><%= link_to value.upcase_first, bucket_bubbles_path(bucket, bubble_filter_params.merge(order_by: nil, status: key)), class: "filter__button" %></li>
+        <% end %>
       </menu>
     </dialog>
   </div>
@@ -30,7 +27,7 @@
     <dialog class="filter__popup panel fill-white shadow" data-dialog-target="dialog">
       <menu class="filter__menu unpad margin-none">
         <% Current.user.buckets.order(:name).each do |bucket| %>
-          <li><%= link_to bucket.name, bucket_bubbles_path(bucket), class: "filter__button" %></li>
+          <li><%= link_to bucket.name, bucket_bubbles_path(bucket, bubble_filter_params), class: "filter__button" %></li>
         <% end %>
       </menu>
     </dialog>
@@ -43,49 +40,61 @@
 </h1>
 
 <h2 class="txt-medium flex align-center justify-center gap-half">
-  <%= tag ? "Tagged" : "with" %>
+  <%= @tag_filters ? "Tagged" : "with" %>
 
   <div class="filter align-center gap-half" data-controller="dialog" data-action="keydown.esc->dialog#close click@document->dialog#closeOnClickOutside">
     <button class="btn btn--plain filter__button" data-action="click->dialog#toggle" data-dialog-modal-value="true">
-      <%= tag&.title || "any tag" %>
+      <%= tag_filter_text %>
     </button>
 
     <dialog class="filter__popup panel fill-white shadow" data-dialog-target="dialog">
       <menu class="filter__menu unpad margin-none">
         <% bucket.tags.order(:title).each do |tag| %>
-          <li><%= link_to tag.title, bucket_bubbles_path(bucket, bubble_filter_params.merge(tag_id: tag.id)) %></li>
+          <li><%= link_to tag.title, bucket_bubbles_path(bucket, bubble_filter_params.merge(tag_ids: [ tag.id ])) %></li>
         <% end %>
       </menu>
     </dialog>
 
-    <% if tag %>
-      <%= link_to bucket_bubbles_path(bucket, bubble_filter_params.without(:tag_id)), class: "btn", style: "font-size: 0.4em;" do %>
+    <% if @tag_filters %>
+      <%= link_to bucket_bubbles_path(bucket, bubble_filter_params.without(:tag_ids)), class: "btn", style: "font-size: 0.4em;" do %>
         <%= image_tag "remove.svg", aria: { hidden: true }, size: 24 %>
         <span class="for-screen-reader">Clear</span>
       <% end %>
     <% end %>
   </div>
 
-  and
+  <% unless status_filter_param.unassigned? %>
+    and
 
-  <div class="filter align-center gap-half" data-controller="dialog" data-action="keydown.esc->dialog#close click@document->dialog#closeOnClickOutside">
-    <button class="btn btn--plain filter__button" data-action="click->dialog#toggle" data-dialog-modal-value="true">
-      assigned to <%= assignee&.name || "anyone" %>
-    </button>
+    <div class="filter align-center gap-half" data-controller="dialog" data-action="keydown.esc->dialog#close click@document->dialog#closeOnClickOutside">
+      <button class="btn btn--plain filter__button" data-action="click->dialog#toggle" data-dialog-modal-value="true">
+        <%= assignee_filter_text %>
+      </button>
 
-    <dialog class="filter__popup panel fill-white shadow" data-dialog-target="dialog">
-      <menu class="filter__menu unpad margin-none">
-        <% bucket.users.active.order(:name).each do |user| %>
-          <li><%= link_to user.name, bucket_bubbles_path(bucket, bubble_filter_params.merge(assignee_id: user.id)) %></li>
+      <dialog class="filter__popup panel fill-white shadow" data-dialog-target="dialog">
+        <menu class="filter__menu unpad margin-none">
+          <% bucket.users.active.order(:name).each do |user| %>
+            <li><%= link_to user.name, bucket_bubbles_path(bucket, bubble_filter_params.merge(assignee_ids: [ user.id ])) %></li>
+          <% end %>
+        </menu>
+      </dialog>
+
+      <% if @assignee_filters %>
+        <%= link_to bucket_bubbles_path(bucket, bubble_filter_params.without(:assignee_ids)), class: "btn", style: "font-size: 0.4em;" do %>
+          <%= image_tag "remove.svg", aria: { hidden: true }, size: 24 %>
+          <span class="for-screen-reader">Clear</span>
         <% end %>
-      </menu>
-    </dialog>
-
-    <% if assignee %>
-      <%= link_to bucket_bubbles_path(bucket, bubble_filter_params.without(:assignee_id)), class: "btn", style: "font-size: 0.4em;" do %>
-        <%= image_tag "remove.svg", aria: { hidden: true }, size: 24 %>
-        <span class="for-screen-reader">Clear</span>
       <% end %>
-    <% end %>
-  </div>
+    </div>
+  <% end %>
+
+  <%= button_to bucket_views_path(bucket), class: "btn", style: "font-size: 0.4em;" do %>
+    <%= hidden_field_tag :order_by, params[:order_by], name: "view[order_by]" %>
+    <%= hidden_field_tag :status, params[:status], name: "view[status]" %>
+    <%= hidden_field_tag :assignee_ids, Array(params[:assignee_ids]).join(","), name: "view[assignee_ids]" %>
+    <%= hidden_field_tag :tag_ids, Array(params[:tag_ids]).join(","), name: "view[tag_ids]" %>
+
+    <%= image_tag "add.svg", aria: { hidden: true }, size: 24 %>
+    <span class="for-screen-reader">Save filters</span>
+  <% end %>
 </h2>

@@ -6,5 +6,7 @@ class Event < ApplicationRecord
   belongs_to :creator, class_name: "User"
   belongs_to :bubble
 
+  has_one :account, through: :creator
+
   scope :threadable, -> { where action: THREADABLE_ACTIONS }
 end

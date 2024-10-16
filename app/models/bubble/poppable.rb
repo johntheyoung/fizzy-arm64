@@ -4,8 +4,8 @@ module Bubble::Poppable
   included do
     has_one :pop, dependent: :destroy
 
-    scope :popped,      -> { joins(:pop) }
-    scope :not_popped,  -> { where.missing(:pop) }
+    scope :popped, -> { joins(:pop) }
+    scope :not_popped, -> { where.missing(:pop) }
   end
 
   def popped?

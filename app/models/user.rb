@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  include Viewer
+
   belongs_to :account
 
   has_many :sessions, dependent: :destroy

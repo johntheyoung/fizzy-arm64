@@ -11,6 +11,6 @@ module Event::Assignments
 
   private
     def assignees
-      @assignees ||= creator.account.users.find assignee_ids
+      @assignees ||= account.users.where id: assignee_ids
     end
 end
