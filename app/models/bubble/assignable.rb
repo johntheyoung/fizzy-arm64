@@ -13,8 +13,13 @@ module Bubble::Assignable
 
   def assign(users, assigner: Current.user)
     transaction do
-      Assignment.insert_all Array(users).collect { |user| { assignee_id: user.id, assigner_id: assigner.id, bubble_id: id } }
+      Assignment.insert_all assignee_rows_from(users)
       track_event :assigned, assignee_ids: Array(users).map(&:id)
     end
   end
+
+  private
+    def assignee_rows_from(users)
+      Array(users).collect { |user| { assignee_id: user.id, assigner_id: assigner.id, bubble_id: id } }
+    end
 end
