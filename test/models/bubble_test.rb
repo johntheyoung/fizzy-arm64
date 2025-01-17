@@ -123,4 +123,12 @@ class BubbleTest < ActiveSupport::TestCase
 
     assert_equal [ bubble, bubbles(:logo), bubbles(:text) ].sort, Bubble.mentioning("haggis").sort
   end
+
+  test "destroying a comment reflows messages" do
+    assert_match /JZ \+1/, event_summaries(:logo_second_activity).body
+    assert_difference "EventSummary.count", -1 do
+      comments(:logo_agreement_kevin).destroy
+    end
+    assert_match /JZ \+2/, event_summaries(:logo_second_activity).reload.body
+  end
 end

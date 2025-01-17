@@ -28,6 +28,14 @@
   }
 }
 
+.comment__edit-link {
+  display: none;
+
+  .comment--mine & {
+    display: block;
+  }
+}
+
 .comment__body {
   p {
     &:first-child {

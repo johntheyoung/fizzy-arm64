@@ -1,17 +1,23 @@
 logo_initial_activity:
   created_at: <%= 1.week.ago %>
+  body: "Added by David <time datetime='<%= 1.week.ago.iso8601 %>' data-local-time-target='ago' data-delimiter='.'></time> Assigned to JZ <time datetime='<%= 1.week.ago.iso8601 %>' data-local-time-target='ago' data-delimiter='.'>1 week ago.</time> David +1."
 
 logo_second_activity:
   created_at: <%= 1.day.ago %>
+  body: "Assigned to Kevin <time datetime='<%= 1.day.ago.iso8601 %>' data-local-time-target='ago' data-delimiter='.'></time> Kevin +2 and JZ +1."
 
 logo_third_activity:
   created_at: <%= 1.hour.ago %>
+  body: "JZ +1."
 
 layout_initial_activity:
   created_at: <%= 1.week.ago %>
+  body: "Added by David <time datetime='<%= 1.week.ago.iso8601 %>' data-local-time-target='ago' data-delimiter='.'></time> Assigned to JZ <time datetime='<%= 1.hour.ago.iso8601 %>' data-local-time-target='ago' data-delimiter='.'></time>"
 
 text_initial_activity:
   created_at: <%= 1.week.ago %>
+  body: "Added by Kevin <time datetime='<%= 1.week.ago.iso8601 %>' data-local-time-target='ago' data-delimiter='.'></time>"
 
 shipping_initial_activity:
   created_at: <%= 1.week.ago %>
+  body: "Added by Kevin <time datetime='<%= 1.week.ago.iso8601 %>' data-local-time-target='ago' data-delimiter='.'></time>"

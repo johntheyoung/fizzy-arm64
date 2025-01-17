@@ -2,9 +2,11 @@ require "test_helper"
 
 class EventSummaryTest < ActiveSupport::TestCase
   test "body" do
-    assert_equal "Added by David 7 days ago. Assigned to JZ 7 days ago. David +1.", event_summaries(:logo_initial_activity).body
-    assert_equal "Assigned to Kevin 1 day ago. Kevin +2 and JZ +1.", event_summaries(:logo_second_activity).body
-    assert_equal "JZ +1.", event_summaries(:logo_third_activity).body
-    assert_equal "Added by Kevin 7 days ago.", event_summaries(:text_initial_activity).body
+    event_summaries(:logo_initial_activity).update! body: "foo"
+    event_summaries(:logo_initial_activity).reset_body
+
+    publication_time = %Q(<time datetime="#{events(:logo_published).created_at.iso8601}" data-local-time-target="ago" data-delimiter="."></time>)
+    assignment_time = %Q(<time datetime="#{events(:logo_assignment_jz).created_at.iso8601}" data-local-time-target="ago" data-delimiter="."></time>)
+    assert_equal %Q(Added by David #{publication_time} Assigned to JZ #{assignment_time} David +1.), event_summaries(:logo_initial_activity).body
   end
 end

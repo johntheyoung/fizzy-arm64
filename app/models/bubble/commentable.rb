@@ -13,6 +13,7 @@ module Bubble::Commentable
 
   def comment_destroyed
     decrement! :comments_count
+    reflow_messages
     rescore
   end
 end

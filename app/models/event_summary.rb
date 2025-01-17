@@ -3,13 +3,18 @@ class EventSummary < ApplicationRecord
 
   has_many :events, -> { chronologically }, dependent: :delete_all, inverse_of: :summary
 
-  # FIXME: Consider persisting the body and compute at write time.
-  def body
-    "#{main_summary} #{boosts_summary}".squish
+  before_create { self.body = generate_body }
+
+  def reset_body
+    update! body: generate_body
   end
 
   private
-    delegate :time_ago_in_words, to: "ApplicationController.helpers"
+    delegate :local_datetime_tag, to: "ApplicationController.helpers", private: true
+
+    def generate_body
+      "#{main_summary} #{boosts_summary}".squish
+    end
 
     def main_summary
       events.non_boosts.map { |event| summarize(event) }.join(" ")
@@ -18,11 +23,11 @@ class EventSummary < ApplicationRecord
     def summarize(event)
       case event.action
       when "published"
-        "Added by #{event.creator.name} #{time_ago_in_words(event.created_at)} ago."
+        "Added by #{event.creator.name} #{local_datetime_tag(event.created_at, style: :ago, delimiter: ".")}"
       when "assigned"
-        "Assigned to #{event.assignees.pluck(:name).to_sentence} #{time_ago_in_words(event.created_at)} ago."
+        "Assigned to #{event.assignees.pluck(:name).to_sentence} #{local_datetime_tag(event.created_at, style: :ago, delimiter: ".")}"
       when "unassigned"
-        "Unassigned from #{event.assignees.pluck(:name).to_sentence} #{time_ago_in_words(event.created_at)} ago."
+        "Unassigned from #{event.assignees.pluck(:name).to_sentence} #{local_datetime_tag(event.created_at, style: :ago, delimiter: ".")}"
       when "staged"
         "#{event.creator.name} moved this to '#{event.stage_name}'."
       when "unstaged"

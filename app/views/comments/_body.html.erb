@@ -8,11 +8,9 @@
         <% end %>
       <% end %>
 
-      <% if comment.creator == Current.user %>
-        <%= link_to edit_bucket_bubble_comment_path(comment.bubble.bucket, comment.bubble, comment), class: "btn txt-small btn--plain", style: "font-size: 0.4em; opacity: 0.5;" do %>
-          <%= image_tag "menu-dots-horizontal.svg", class: "icon" %>
-          <span class="for-screen-reader">Edit</span>
-        <% end %>
+      <%= link_to edit_bucket_bubble_comment_path(comment.bubble.bucket, comment.bubble, comment), class: "btn txt-small btn--plain comment__edit-link", style: "font-size: 0.4em; opacity: 0.5;" do %>
+        <%= image_tag "menu-dots-horizontal.svg", class: "colorize--black" %>
+        <span class="for-screen-reader">Edit</span>
       <% end %>
     </div>
     <div class="comment__body txt-align-start">

@@ -28,8 +28,9 @@ export default class extends Controller {
 
   #formatTime(formatter, target) {
     const dt = new Date(target.getAttribute("datetime"))
-    target.textContent = formatter.format(dt)
-    target.title = this.dateTimeFormatter.format(dt)
+    const delimiter = target.dataset.delimiter || ""
+    target.textContent = formatter.format(dt) + delimiter
+    target.title = this.dateTimeFormatter.format(dt) + delimiter
   }
 }
 
