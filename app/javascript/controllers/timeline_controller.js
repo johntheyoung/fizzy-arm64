@@ -9,6 +9,7 @@ export default class extends Controller {
   cellTargetConnected(target) {
     const dt = new Date(target.dataset.datetime)
     target.classList.toggle("future", dt > new Date())
+    target.classList.toggle("current-hour", this.#isCurrentHour(dt))
   }
 
   itemTargetConnected(target) {
@@ -22,5 +23,12 @@ export default class extends Controller {
     return dt.getYear() == date.getYear() &&
       dt.getMonth() == date.getMonth() &&
       dt.getDay() == date.getDay()
+  }
+
+  #isCurrentHour(dt) {
+    const now = new Date()
+    const utcHour = dt.getUTCHours()
+    const localHour = now.getHours()
+    return utcHour === localHour
   }
 }
