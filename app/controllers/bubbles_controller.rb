@@ -23,7 +23,8 @@ class BubblesController < ApplicationController
 
   def destroy
     @bubble.destroy!
-    redirect_to bubbles_path(bucket_ids: [ @bubble.bucket ]), notice: "Bubble deleted"
+
+    redirect_to bubbles_path(bucket_ids: [ @bubble.bucket ]), notice: deleted_notice
   end
 
   def update
@@ -41,6 +42,10 @@ class BubblesController < ApplicationController
     end
 
     def bubble_params
-      params.expect(bubble: [ :title, :color, :due_on, :image, tag_ids: [] ])
+      params.expect(bubble: [ :status, :title, :color, :due_on, :image, tag_ids: [] ])
+    end
+
+    def deleted_notice
+      "Bubble deleted" unless @bubble.creating?
     end
 end

@@ -95,4 +95,22 @@
   <%= turbo_frame_tag dom_id(@bubble, :stage_picker), src: new_bucket_bubble_stage_picker_path(@bubble.bucket, @bubble) %>
 </div>
 
+<% if @bubble.creating? %>
+  <%#
+      If we could put the textare for the bubble title, and the initial
+      comment, into this form, it should prevent people from losing edits when
+      they make changes to other properties. In that case, we can remove the
+      save buttons from inside the bubble, and from the comment box, so that
+      the middle section all feels like one block that you're then either
+      publishing, drafting, or cancelling.
+    %>
+
+  <%= form_with model: @bubble, url: bucket_bubble_path(@bubble.bucket, @bubble) do |form| %>
+    <%= button_tag "Publish", type: "submit", name: "bubble[status]", value: "published" %>
+    <%= button_tag "Save a draft", type: "submit", name: "bubble[status]", value: "drafted" %>
+  <% end %>
+
+  <%= button_to "Cancel", bucket_bubble_path(@bubble.bucket, @bubble), method: :delete %>
+<% end %>
+
 <%= render "notifications/tray" %>
