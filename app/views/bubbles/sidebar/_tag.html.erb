@@ -16,7 +16,7 @@
     <% end %>
 
     <%= form_with url: bucket_bubble_tagging_toggles_path(bubble.bucket, bubble), class: "flex flex-column full-width popup__list", data: { controller: "form" } do |form| %>
-      <% tags.sort_by(&:hashtag).each do |tag| %>
+      <% tags.sort_by { |tag| tag.hashtag.downcase }.each do |tag| %>
         <div class="btn popup__item">
           <%= form.check_box "tag_id[]", { 
             checked: bubble.tagged_with?(tag),
