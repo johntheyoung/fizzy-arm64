@@ -34,7 +34,7 @@
 .filter__columns {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  max-block-size: 60dvh;
+  max-block-size: 50dvh;
 }
 
 .filter__label {
