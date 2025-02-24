@@ -1,0 +1,59 @@
+logo_david:
+  bubble: logo
+  user: david
+  watching: true
+
+logo_jz:
+  bubble: logo
+  user: jz
+  watching: true
+
+logo_kevin:
+  bubble: logo
+  user: kevin
+  watching: true
+
+layout_david:
+  bubble: layout
+  user: david
+  watching: true
+
+layout_jz:
+  bubble: layout
+  user: jz
+  watching: true
+
+layout_kevin:
+  bubble: layout
+  user: kevin
+  watching: true
+
+text_david:
+  bubble: text
+  user: david
+  watching: true
+
+text_jz:
+  bubble: text
+  user: jz
+  watching: true
+
+text_kevin:
+  bubble: text
+  user: kevin
+  watching: true
+
+shipping_david:
+  bubble: shipping
+  user: david
+  watching: true
+
+shipping_jz:
+  bubble: shipping
+  user: jz
+  watching: true
+
+shipping_kevin:
+  bubble: shipping
+  user: kevin
+  watching: true

@@ -1,6 +1,6 @@
 class Bubble < ApplicationRecord
   include Assignable, Boostable, Colored, Commentable, Eventable,
-    Messages, Notifiable, Poppable, Searchable, Staged, Statuses, Taggable
+    Messages, Notifiable, Poppable, Searchable, Staged, Statuses, Taggable, Watchable
 
   belongs_to :bucket, touch: true
   belongs_to :creator, class_name: "User", default: -> { Current.user }
