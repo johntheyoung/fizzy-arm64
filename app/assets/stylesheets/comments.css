@@ -1,4 +1,7 @@
 @layer components {
+  /* Comment container
+  /* ------------------------------------------------------------------------ */
+
   .comments {
     --avatar-size: 2.33em;
     --comment-padding-block: var(--block-space);
@@ -21,6 +24,9 @@
     padding-inline: calc(var(--comment-padding-block) + var(--inline-space-double));
   }
 
+  /* Comment item
+  /* ------------------------------------------------------------------------ */
+
   .comment {
     margin-inline: auto;
     max-inline-size: var(--comment-max);
@@ -36,8 +42,21 @@
   }
 
   .comment__author {
+    display: flex;
+    align-items: center;
+    gap: 1ch;
+
     .btn {
       font-weight: inherit;
+    }
+  }
+
+  .comment__timestamp {
+    font-size: var(--text-small);
+
+    &:hover {
+      box-shadow: none;
+      opacity: 1;
     }
   }
 
@@ -51,14 +70,12 @@
   }
 
   .comment__body {
-    p {
-      &:first-child {
-        margin-block-start: 0;
-      }
+    p:first-child {
+      margin-block-start: 0;
+    }
 
-      &:last-child {
-        margin-block-end: 0;
-      }
+    p:last-child {
+      margin-block-end: 0;
     }
   }
 
@@ -80,17 +97,6 @@
     }
   }
 
-  .comment__event {
-    max-inline-size: var(--comment-max);
-
-    &::before {
-      /* Make up space for lack of avatar */
-      content: "";
-      display: flex;
-      inline-size: calc(var(--comment-padding-inline) * 0.75);
-    }
-  }
-
   .comment__input {
     --input-border-size: 0;
     --input-padding: 0;
@@ -101,6 +107,30 @@
     @supports (field-sizing: content) {
       field-sizing: content;
       min-block-size: calc(9lh + (2 * var(--comment-padding-block)));
+    }
+  }
+
+  /* Variants
+  /* ------------------------------------------------------------------------ */
+
+  .comment--event {
+    display: flex;
+    inline-size: 100%;
+    max-inline-size: var(--comment-max);
+
+    .comment__content {
+      background: none;
+      opacity: 0.66;
+      padding: 0;
+      font-size: var(--text-small);
+      font-weight: 500;
+    }
+
+    /* Make up space for lack of avatar */
+    &::before {
+      content: "";
+      display: flex;
+      inline-size: calc(var(--comment-padding-inline) * 0.75);
     }
   }
 }
