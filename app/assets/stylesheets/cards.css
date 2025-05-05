@@ -190,7 +190,7 @@
     box-shadow: 0 0 0 1px color-mix(in srgb, var(--color-link) 20%, var(--color-canvas));
     color: var(--btn-color);
     font-weight: 700;
-    
+
   }
 
   .card__move-button {
@@ -267,7 +267,7 @@
 
     .card:has(&),
     .card-perma:has(&) {
-      --card-color: #3b3633 !important;
+      --card-color: var(--card-color-1) !important;
     }
   }
 
