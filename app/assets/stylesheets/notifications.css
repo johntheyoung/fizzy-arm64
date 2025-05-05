@@ -71,6 +71,11 @@
     inset: 0 0 auto auto;
     position: absolute;
 
+    &:before,
+    .icon {
+      transition: opacity 150ms ease;
+    }
+
     /* The red dot */
     &:before {
       aspect-ratio: 1;
