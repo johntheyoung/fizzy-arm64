@@ -49,6 +49,7 @@ module Card::Engageable
     transaction do
       reopen
       engagement&.destroy
+      touch(:last_active_at)
     end
   end
 end

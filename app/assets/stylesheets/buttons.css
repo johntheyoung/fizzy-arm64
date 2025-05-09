@@ -153,8 +153,10 @@
   }
 
   .btn--plain {
-    --btn-border-radius: 0.5em;
+    --btn-background: transparent;
+    --btn-border-radius: 0;
     --btn-border-size: 0;
+    --btn-color: inherit;
     --btn-icon-size: 100%;
     --btn-padding: 0;
     --hover-size: 0;

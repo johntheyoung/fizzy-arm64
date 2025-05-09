@@ -78,20 +78,15 @@
     }
 
     &:has(input:checked)  {
-      --btn-background: var(--color-selected);
+      --btn-background: var(--color-ink-lightest);
       --btn-color: var(--color-ink);
 
-      img {
-        filter: invert(0);
-
+      .icon {
         &.checked {
+          block-size: 1em;
           display: block;
-        }
-      }
-
-      @media (prefers-color-scheme: dark) {
-        img {
-          filter: invert(1);
+          inline-size: 1em;
+          margin-inline-end: var(--inline-space);
         }
       }
 
@@ -100,11 +95,6 @@
           --btn-background: var(--color-selected);
         }
       }
-    }
-
-    img.checked {
-      block-size: 1em;
-      inline-size: 1em;
     }
   }
 

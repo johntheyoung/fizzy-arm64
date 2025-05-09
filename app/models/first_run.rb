@@ -1,7 +1,10 @@
 class FirstRun
   def self.create!(user_attributes)
+    user = User.member.create!(user_attributes)
+
     Account.create!(name: "Fizzy")
     Closure::Reason.create_defaults
-    User.member.create!(user_attributes)
+    Collection.create!(name: "Cards", creator: user, all_access: true)
+    user
   end
 end

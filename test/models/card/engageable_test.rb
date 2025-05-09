@@ -48,6 +48,8 @@ class Card::EngageableTest < ActiveSupport::TestCase
   end
 
   test "auto_reconsider_all_stagnated" do
+    travel_to Time.current
+
     cards(:logo, :shipping).each(&:engage)
 
     cards(:logo).update!(last_active_at: 1.day.ago - Card::Engageable::STAGNATED_AFTER)
@@ -59,5 +61,6 @@ class Card::EngageableTest < ActiveSupport::TestCase
 
     assert cards(:shipping).reload.doing?
     assert cards(:logo).reload.considering?
+    assert_equal Time.current, cards(:logo).last_active_at
   end
 end

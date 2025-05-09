@@ -1,7 +1,7 @@
 <%= link_to event.notifiable_target,
       class: "event event--#{ event.action } panel center center-block flex-inline align-start justify-start gap position-relative",
       style: "--card-color: #{ card.color }; background-color: color-mix(in srgb, var(--card-color) 10%, var(--color-canvas));
-  color: color-mix(in srgb, var(--card-color) 40%, var(--color-ink));",
+  color: color-mix(in srgb, var(--card-color) 40%, var(--color-ink)); border: 1px solid color-mix(in srgb, var(--card-color) 20%, var(--color-canvas))",
       data: { related_element_target: "related",
             related_element_group_value: card.id,
             action: "mouseover->related-element#highlight mouseout->related-element#unhighlight" } do %>
@@ -24,6 +24,6 @@
 
     <%= yield %>
 
-    <span class="event__collection"><%= event.collection.name %></span>
+    <span class="event__collection"><span><%= card.id %></span> · <%= event.collection.name %></span>
   </div>
 <% end %>

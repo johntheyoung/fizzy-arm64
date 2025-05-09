@@ -17,6 +17,7 @@ class Notification < ApplicationRecord
 
   def read
     update!(read_at: Time.current)
+    broadcast_read
   end
 
   def read?
@@ -26,5 +27,9 @@ class Notification < ApplicationRecord
   private
     def broadcast_unread
       broadcast_prepend_later_to user, :notifications, target: "notifications"
+    end
+
+    def broadcast_read
+      broadcast_remove_to user, :notifications
     end
 end

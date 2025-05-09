@@ -15,7 +15,7 @@
           <%= card.title %>
         </h1>
 
-        <%= link_to collection_card_path(card.collection, card), class: "card__link", title: card_title_tag(card), data: { turbo_frame: "_top" } do %>
+        <%= link_to collection_card_path(card.collection, card), class: "card__link", title: card_title_tag(card), data: { action: "dialog#close", turbo_frame: "_top" } do %>
           <span class="for-screen-reader"><%= card.title %></span>
         <% end %>
       </div>
@@ -28,5 +28,9 @@
     </footer>
 
     <%= render "cards/display/common/background", card: card %>
+
+    <% if card.closing_soon? %>
+      <%= render "cards/display/preview/bubble", days: card.days_until_close %>
+    <% end %>
   <% end %>
 <% end %>

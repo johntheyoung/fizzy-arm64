@@ -1,9 +1,12 @@
 <div id="<%= dom_id(reaction) %>"
-      class="reaction flex-inline postion--relative max-width align-center fill-white gap"
+      class="reaction"
       data-controller="reaction-delete"
       data-reaction-delete-reacter-id-value="<%= reaction.reacter.id %>"
-      data-controller="reaction-delete" data-reaction-delete-perform-class="reaction--deleting"
-      data-reaction-delete-reveal-class="expanded" data-reaction-delete-reacter-id-value="<%= reaction.reacter.id %>">
+      data-controller="reaction-delete"
+      data-reaction-delete-perform-class="reaction--deleting"
+      data-reaction-delete-reveal-class="expanded"
+      data-reaction-delete-deleteable-class="reaction--deleteable"
+      data-reaction-delete-reacter-id-value="<%= reaction.reacter.id %>">
   <figure class="reaction__avatar margin-none flex-item-no-shrink">
     <%= avatar_tag reaction.reacter, aria: { label: "#{reaction.reacter.name} reacted #{reaction.content}" } %>
   </figure>

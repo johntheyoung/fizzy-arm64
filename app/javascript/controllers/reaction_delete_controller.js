@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static classes = [ "reveal", "perform" ]
+  static classes = [ "deleteable", "reveal", "perform" ]
   static targets = [ "button", "content" ]
   static values = { reacterId: Number }
 
@@ -27,6 +27,7 @@ export default class extends Controller {
     this.contentTarget.role = "button"
     this.contentTarget.tabIndex = 0
     this.contentTarget.ariaExpanded = false
+    this.element.classList.add(this.deleteableClass)
   }
 
   get #currentUserIsReacter() {

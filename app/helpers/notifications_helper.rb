@@ -1,9 +1,9 @@
 module NotificationsHelper
   def event_notification_title(event)
     case event_notification_action(event)
-    when "comment_created" then "RE: " + event.eventable.card.title
-    when "card_assigned" then "Assigned to you: " + event.eventable.title
-    else event.eventable.title
+    when "comment_created" then "RE: #{card_notification_title(event.eventable.card)}"
+    when "card_assigned" then "Assigned to #{event.assignees.pluck(:name).to_sentence}: #{card_notification_title(event.eventable)}"
+    else card_notification_title(event.eventable)
     end
   end
 
@@ -32,10 +32,10 @@ module NotificationsHelper
 
   def notification_mark_read_button(notification)
     button_to read_notification_path(notification),
-        class: "notification__unread_indicator btn borderless",
+        class: "notification__unread_indicator btn btn--circle borderless",
         title: "Mark as read",
         data: { turbo_frame: "_top" } do
-      concat(image_tag("remove-med.svg", class: "unread_icon", size: 12, aria: { hidden: true }))
+      concat(icon_tag("remove-med"))
       concat(tag.span("Mark as read", class: "for-screen-reader"))
     end
   end
@@ -58,5 +58,9 @@ module NotificationsHelper
     def comment_notification_body(event)
       comment = event.eventable
       "#{strip_tags(comment.body_html).blank? ? "#{event.creator.name} replied" : "#{event.creator.name}:" } #{strip_tags(comment.body_html).truncate(200)}"
+    end
+
+    def card_notification_title(card)
+      card.title.presence || "Card #{card.id}"
     end
 end

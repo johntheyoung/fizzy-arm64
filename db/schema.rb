@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_04_29_162506) do
+ActiveRecord::Schema[8.1].define(version: 2025_05_07_095113) do
   create_table "accesses", force: :cascade do |t|
     t.integer "collection_id", null: false
     t.datetime "created_at", null: false
@@ -159,6 +159,17 @@ ActiveRecord::Schema[8.1].define(version: 2025_04_29_162506) do
     t.index ["filter_id"], name: "index_collections_filters_on_filter_id"
   end
 
+  create_table "commands", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.json "data", default: {}
+    t.text "line"
+    t.string "type"
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["user_id", "created_at"], name: "index_commands_on_user_id_and_created_at"
+    t.index ["user_id"], name: "index_commands_on_user_id"
+  end
+
   create_table "comments", force: :cascade do |t|
     t.integer "card_id", null: false
     t.datetime "created_at", null: false
@@ -280,7 +291,6 @@ ActiveRecord::Schema[8.1].define(version: 2025_04_29_162506) do
     t.datetime "created_at", null: false
     t.string "title"
     t.datetime "updated_at", null: false
-    t.index ["title"], name: "index_tags_on_account_id_and_title", unique: true
   end
 
   create_table "users", force: :cascade do |t|
@@ -327,6 +337,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_04_29_162506) do
   add_foreign_key "closures", "cards"
   add_foreign_key "closures", "users"
   add_foreign_key "collections", "workflows"
+  add_foreign_key "commands", "users"
   add_foreign_key "comments", "cards"
   add_foreign_key "events", "collections"
   add_foreign_key "mentions", "users", column: "mentionee_id"

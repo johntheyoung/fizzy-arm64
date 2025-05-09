@@ -1,16 +1,15 @@
 <%= turbo_frame_tag comment, :reacting do %>
-  <div class="reactions flex flex-wrap align-center gap full-width">
-    <div id="<%= dom_id(comment, :reactions) %>" class="flex-inline flex-wrap gap">
+  <div class="reactions">
+    <div id="<%= dom_id(comment, :reactions) %>" class="reactions__list">
       <%= render partial: "cards/comments/reactions/reaction", collection: comment.reactions.includes(:reacter).ordered %>
     </div>
 
     <%= turbo_frame_tag comment, :new_reaction do %>
-      <div class="flex-inline" data-controller="soft-keyboard">
-        <%= link_to new_card_comment_reaction_path(comment.card, comment), role: "button",
-              class: "btn reaction__action", action: "soft-keyboard#open" do %>
-          <%= icon_tag "reaction" %> <span class="for-screen-reader">Add a reaction</span>
-        <% end %>
-      </div>
+      <%= render "cards/comments/reactions/quick_reaction", comment: comment do %>
+        <button class="reaction__action btn btn--circle" data-action="click->dialog#open:stop">
+          <%= icon_tag "reaction" %>
+        </button>
+      <% end %>
     <% end %>
   </div>
 <% end %>

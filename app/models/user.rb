@@ -15,6 +15,7 @@ class User < ApplicationRecord
   has_many :closures, dependent: :nullify
   has_many :pins, dependent: :destroy
   has_many :pinned_cards, through: :pins, source: :card
+  has_many :commands, dependent: :destroy
 
   normalizes :email_address, with: ->(value) { value.strip.downcase }
 

@@ -1,35 +1,56 @@
 @layer components {
   .reactions {
+    --btn-icon-size: 1.3em;
     --column-gap: 0.4ch;
     --reaction-border-color: var(--color-ink-lighter);
     --row-gap: 0;
 
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--inline-space-half);
+    inline-size: 100%;
     margin-block-start: calc(var(--block-space-half) / 2);
     margin-inline: calc(var(--column-gap) / -1);
   }
 
+  .reactions__list {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: var(--column-gap);
+
+    &:not(:has(.reaction)) {
+      display: none;
+    }
+  }
+
   .reaction {
+    --btn-size: 100%;
+
+    align-items: center;
+    background-color: var(--color-canvas);
+    block-size: var(--reaction-size);
     border: 1px solid var(--reaction-border-color);
     border-radius: 4rem;
-    margin-block-start: calc(var(--block-space-half) / 2);
+    display: inline-flex;
+    gap: var(--column-gap);
+    max-inline-size: 100%;
     opacity: 1;
     padding: 0.1em 0.25em 0.1em 0.12em;
-    transition: opacity 100ms ease-in-out, box-shadow 150ms ease-in-out, transform 150ms ease-in-out;
+    postion: relative;
+    transition: opacity 100ms ease-in-out, transform 150ms ease-in-out;
 
     .btn {
       font-size: 0.6em;
-
-      &:is(.reaction__delete) {
-        display: none;
-
-        .expanded & {
-          display: flex;
-        }
-      }
+      inline-size: auto;
     }
+  }
+
+  .reaction--deleteable {
+    cursor: pointer;
 
     @media (any-hover: hover) {
-      &:where(:not(:active):hover) {
+      &:not(:active):hover {
         --reaction-border-color: var(--color-ink-medium);
 
         box-shadow: 0 0 0 var(--hover-size) var(--hover-color);
@@ -44,16 +65,18 @@
     }
   }
 
-  .btn:is(.reaction__action) {
-    --btn-border-color: var(--reaction-border-color);
+  /* Make the avatar and delete buttons fit nicely within the reaction */
+  .reaction__avatar,
+  .reaction__form-label,
+  .reaction form {
+    block-size: var(--btn-size);
+  }
 
-    font-size: 0.74em;
-    margin-block-start: calc(var(--block-space-half) / 2);
+  .reaction__delete {
+    display: none;
 
-    @media (any-hover: hover) {
-      &:where(:not(:active):hover) {
-        --reaction-border-color: var(--color-ink-medium);
-      }
+    .expanded & {
+      display: flex;
     }
   }
 
@@ -61,8 +84,9 @@
     transition: none;
 
     &.expanded {
-      animation: react 0.2s both;
+      animation: react 300ms both;
       transform: translate3d(0, 0, 0);
+      transform-origin: left center;
     }
 
     .reaction__form-label:focus {
@@ -86,5 +110,52 @@
 
   .reaction--deleting {
     animation: scale-fade-out 0.2s both;
+  }
+
+  .reaction__action {
+    --btn-border-color: var(--reaction-border-color);
+    --btn-size: var(--reaction-size);
+
+    font-size: 0.75em;
+
+    .reactions:not(:has(.reaction)) & {
+      display: none;
+    }
+  }
+
+  /* Quick reactions
+  /* ------------------------------------------------------------------------ */
+
+  .quick-reaction {
+    position: relative;
+  }
+
+  .quick-reaction__popup {
+    --panel-border-radius: 1.2em;
+    --panel-padding: 0.5ch;
+    --offset: calc(-1 * var(--panel-padding));
+
+    inset: var(--offset) auto auto var(--offset);
+    min-inline-size: auto;
+    transform: none;
+  }
+
+  .quick-reaction__emojis {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+
+    .btn {
+      --btn-icon-size: 1.5ch;
+      --btn-size: var(--reaction-size);
+      --btn-border-color: var(--color-canvas);
+
+      position: relative;
+
+      @media (any-hover: hover) {
+        &:hover {
+          z-index: 1;
+        }
+      }
+    }
   }
 }

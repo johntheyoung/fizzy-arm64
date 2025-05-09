@@ -25,6 +25,10 @@
       display: none;
     }
 
+    .card__meta-grid {
+      margin-inline-start: 0;
+    }
+    
     .card {
       --block-space: 1em;
       --block-space-half: 0.5em;
@@ -78,6 +82,10 @@
       inline-size: fit-content;
       inset: 0 0 auto auto;
       position: absolute;
+    }
+
+    .card__bubble {
+      display: none;
     }
   }
 }

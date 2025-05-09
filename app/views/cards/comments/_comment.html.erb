@@ -11,14 +11,20 @@
             <%= link_to comment.creator.name, comment.creator, class: "txt-ink btn btn--plain fill-transparent", data: { turbo_frame: "_top" } %>
           </strong>
 
-          <%= link_to comment, class: "txt-undecorated txt-ink translucent txt-normal txt-capitalize" do %>
-            <%= local_datetime_tag comment.created_at, style: :agoorweekday %>, 
+          <%= link_to comment, class: "txt-undecorated txt-ink translucent txt-normal txt-capitalize flex-item-justify-start" do %>
+            <%= local_datetime_tag comment.created_at, style: :agoorweekday %>,
             <%= local_datetime_tag comment.created_at, style: :time %>
           <% end %>
 
           <%= link_to edit_card_comment_path(comment.card, comment),
-                class: "comment__edit btn btn--plain txt-xx-small fill-transparent translucent flex-item-justify-end" do %>
+                class: "comment__edit btn btn--circle borderless fill-transparent translucent" do %>
             <%= icon_tag "menu-dots-horizontal" %> <span class="for-screen-reader">Edit this comment</span>
+          <% end %>
+
+          <%= render "cards/comments/reactions/quick_reaction", comment: comment do %>
+            <button class="comment__reaction btn btn--circle borderless fill-transparent" data-action="click->dialog#open:stop">
+              <%= icon_tag "menu-dots-horizontal" %>
+            </button>
           <% end %>
         </div>
 

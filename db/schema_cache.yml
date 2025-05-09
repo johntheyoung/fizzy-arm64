@@ -80,7 +80,7 @@ columns:
     default_function:
     collation:
     comment:
-  - &28 !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
+  - &24 !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
     auto_increment:
     name: user_id
     cast_type: *1
@@ -532,6 +532,49 @@ columns:
   collections_filters:
   - *22
   - *18
+  commands:
+  - *5
+  - !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
+    auto_increment:
+    name: data
+    cast_type: &25 !ruby/object:ActiveRecord::Type::Json
+      precision:
+      scale:
+      limit:
+    sql_type_metadata: &26 !ruby/object:ActiveRecord::ConnectionAdapters::SqlTypeMetadata
+      sql_type: json
+      type: :json
+      limit:
+      precision:
+      scale:
+    'null': true
+    default: "{}"
+    default_function:
+    collation:
+    comment:
+  - *6
+  - !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
+    auto_increment:
+    name: line
+    cast_type: *14
+    sql_type_metadata: *15
+    'null': true
+    default:
+    default_function:
+    collation:
+    comment:
+  - !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
+    auto_increment:
+    name: type
+    cast_type: *7
+    sql_type_metadata: *8
+    'null': true
+    default:
+    default_function:
+    collation:
+    comment:
+  - *9
+  - *24
   comments:
   - *21
   - *5
@@ -579,16 +622,8 @@ columns:
   - !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
     auto_increment:
     name: particulars
-    cast_type: &24 !ruby/object:ActiveRecord::Type::Json
-      precision:
-      scale:
-      limit:
-    sql_type_metadata: &25 !ruby/object:ActiveRecord::ConnectionAdapters::SqlTypeMetadata
-      sql_type: json
-      type: :json
-      limit:
-      precision:
-      scale:
+    cast_type: *25
+    sql_type_metadata: *26
     'null': true
     default: "{}"
     default_function:
@@ -601,8 +636,8 @@ columns:
   - !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
     auto_increment:
     name: fields
-    cast_type: *24
-    sql_type_metadata: *25
+    cast_type: *25
+    sql_type_metadata: *26
     'null': false
     default: "{}"
     default_function:
@@ -667,7 +702,7 @@ columns:
     default_function:
     collation:
     comment:
-  - &26 !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
+  - &27 !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
     auto_increment:
     name: source_id
     cast_type: *1
@@ -677,7 +712,7 @@ columns:
     default_function:
     collation:
     comment:
-  - &27 !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
+  - &28 !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
     auto_increment:
     name: source_type
     cast_type: *7
@@ -711,16 +746,16 @@ columns:
     default_function:
     collation:
     comment:
-  - *26
   - *27
-  - *9
   - *28
+  - *9
+  - *24
   pins:
   - *21
   - *5
   - *6
   - *9
-  - *28
+  - *24
   reactions:
   - !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
     auto_increment:
@@ -800,7 +835,7 @@ columns:
     default_function:
     collation:
     comment:
-  - *28
+  - *24
   taggings:
   - *21
   - *5
@@ -862,7 +897,7 @@ columns:
   - *5
   - *6
   - *9
-  - *28
+  - *24
   - !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
     auto_increment:
     name: watching
@@ -921,6 +956,7 @@ primary_keys:
   closures: id
   collections: id
   collections_filters:
+  commands: id
   comments: id
   creators_filters:
   events: id
@@ -957,6 +993,7 @@ data_sources:
   closures: true
   collections: true
   collections_filters: true
+  commands: true
   comments: true
   creators_filters: true
   events: true
@@ -1450,6 +1487,40 @@ indexes:
     nulls_not_distinct:
     comment:
     valid: true
+  commands:
+  - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
+    table: commands
+    name: index_commands_on_user_id
+    unique: false
+    columns:
+    - user_id
+    lengths: {}
+    orders: {}
+    opclasses: {}
+    where:
+    type:
+    using:
+    include:
+    nulls_not_distinct:
+    comment:
+    valid: true
+  - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
+    table: commands
+    name: index_commands_on_user_id_and_created_at
+    unique: false
+    columns:
+    - user_id
+    - created_at
+    lengths: {}
+    orders: {}
+    opclasses: {}
+    where:
+    type:
+    using:
+    include:
+    nulls_not_distinct:
+    comment:
+    valid: true
   comments:
   - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
     table: comments
@@ -1905,23 +1976,7 @@ indexes:
     nulls_not_distinct:
     comment:
     valid: true
-  tags:
-  - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
-    table: tags
-    name: index_tags_on_account_id_and_title
-    unique: true
-    columns:
-    - title
-    lengths: {}
-    orders: {}
-    opclasses: {}
-    where:
-    type:
-    using:
-    include:
-    nulls_not_distinct:
-    comment:
-    valid: true
+  tags: []
   users:
   - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
     table: users
@@ -2006,4 +2061,4 @@ indexes:
     comment:
     valid: true
   workflows: []
-version: 20250429162506
+version: 20250507095113

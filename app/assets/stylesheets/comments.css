@@ -4,6 +4,7 @@
     --comment-padding-block: var(--block-space);
     --comment-padding-inline: var(--inline-space-double);
     --comment-max: 70ch;
+    --reaction-size: 2rem;
 
     display: flex;
     flex-direction: column;
@@ -63,6 +64,9 @@
   }
 
   .comment__content {
+    --btn-icon-size: 1.2rem;
+    --btn-size: var(--reaction-size);
+
     background-color: var(--color-ink-lightest);
     border-radius: 0.2em;
     padding:
@@ -72,12 +76,22 @@
   }
 
   .comment__edit {
-    --btn-icon-size: 1.2rem;
+    .comment:not(.comment--mine) & {
+      display: none;
+    }
+  }
 
-    display: none;
+  .comment__reaction {
+    opacity: 0.66;
+
+    @media (any-hover: hover) {
+      .comment:not(:hover) & {
+        opacity: 0;
+      }
+    }
 
     .comment--mine & {
-      display: grid;
+      display: none;
     }
   }
 

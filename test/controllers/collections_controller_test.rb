@@ -55,9 +55,9 @@ class CollectionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "destroy" do
-    assert_difference -> { Collection.count }, -1 do
-      delete collection_path(collections(:writebook))
-      assert_redirected_to root_path
-    end
+    collection = collections(:writebook)
+    delete collection_path(collection)
+    assert_redirected_to root_path
+    assert_raises(ActiveRecord::RecordNotFound) { collection.reload }
   end
 end

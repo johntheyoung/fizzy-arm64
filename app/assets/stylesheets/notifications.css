@@ -61,30 +61,47 @@
   }
 
   .notification__unread_indicator {
-    --btn-background: var(--color-marker);
+    --btn-background: var(--color-canvas);
     --btn-border-color: var(--color-canvas);
     --btn-icon-size: 0.7em;
     --btn-padding: 0;
-    --btn-size: 1.2em;
+    --btn-size: 1.75em;
     --hover-size: 0;
 
-    inset: var(--block-space) var(--inline-space) auto auto;
+    inset: 0 0 auto auto;
     position: absolute;
-    scale: 0.7;
 
-    img {
-      visibility: hidden;
+    &:before,
+    .icon {
+      transition: opacity 150ms ease;
+    }
+
+    /* The red dot */
+    &:before {
+      aspect-ratio: 1;
+      background-color: var(--color-marker);
+      border-radius: 50%;
+      content: "";
+      inline-size: 0.55em;
+      inset: 50% auto auto 50%;
+      position: absolute;
+      translate: -50% -50%;
+    }
+
+    .icon {
+      opacity: 0;
     }
 
     @media (hover: hover) {
       &:hover {
-        --btn-background: var(--color-ink-medium);
-        --btn-border-color: var(--color-ink-medium);
+        --btn-background: transparent;
 
-        scale: 1;
+        &:before {
+          opacity: 0;
+        }
 
-        img {
-          visibility: unset;
+        .icon {
+          opacity: 1;
         }
       }
     }

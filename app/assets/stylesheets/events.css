@@ -1,5 +1,8 @@
 @layer components {
   .events {
+    background-color: var(--color-ink-lighter);
+    border-block-start: var(--grid-lines) solid var(--color-ink-lighter);
+    border-inline-start: var(--grid-lines) solid var(--color-ink-lighter);
     display: grid;
     gap: 0 var(--grid-lines);
     grid-template-columns: repeat(3, 1fr);
@@ -9,7 +12,7 @@
 
   .events__container {
     --column-gap: clamp(var(--inline-space), 3cqmin, calc(var(--inline-space) * 3));
-    --grid-lines: 0.1rem;
+    --grid-lines: 1px;
 
     margin: auto;
     max-inline-size: min(105ch, 100%);
@@ -24,7 +27,8 @@
   }
 
   .events__day-header-content {
-    background-color: var(--color-canvas);
+    background-color: var(--color-ink-lighter);
+    border-radius: 0.2em;
     display: inline-flex;
     font-size: 0.8em;
     inset: calc(var(--grid-lines) - 1em) auto -1em;
@@ -53,10 +57,10 @@
   }
 
   .events--none {
-    background-color: var(--color-container);
-    border-block-start: var(--grid-lines) solid var(--color-canvas);
+    background-color: var(--color-canvas);
+    border-block-start: var(--grid-lines) solid var(--color-ink-lightest);
     padding-block: 3em;
-    margin: auto var(--grid-lines) calc(var(--grid-lines) * -1) auto;
+    margin: auto;
   }
 
   .events__popup {
@@ -66,7 +70,7 @@
   .event {
     --column-gap: 0.7ch;
     --panel-border-color: transparent;
-    --panel-border-radius: var(--grid-lines);
+    --panel-border-radius: 0.2em;
     --panel-padding: 0.6em 1.2em 0.6em 0.6em;
     --panel-size: auto;
 
@@ -90,7 +94,7 @@
   }
 
   .event__grid-item {
-    background-color: var(--color-container);
+    background-color: var(--color-canvas);
     block-size: 100%;
     border-radius: 0;
     display: flex;
@@ -100,7 +104,7 @@
   .event__grid-column-title {
     --z: 3;
 
-    background-color: var(--color-container);
+    background-color: var(--color-canvas);
     font-size: 0.9em;
     padding: 1.5em 0 1em;
     text-transform: uppercase;
@@ -123,10 +127,10 @@
   .event__wrapper {
     align-content: end;
     display: grid;
-    gap: calc(var(--grid-lines) * 2);
+    gap: var(--block-space-half);
     justify-items: center;
     margin: var(--grid-lines) var(--grid-lines) calc(var(--grid-lines) * 6) var(--grid-lines);
-    padding: 0 var(--grid-lines);
+    padding: var(--block-space) var(--inline-space-double);
 
     .event {
       grid-column-start: unset !important;
@@ -144,7 +148,7 @@
     place-content: center;
     margin-inline-end: -0.75em;
 
-    img {
+    .icon {
       block-size: 1.1em;
       inline-size: 1.1em;
       grid-area: 1 / 1;
