@@ -1,14 +1,14 @@
 servers:
   web:
     hosts:
-      - test-1
+      - cph-app-101
   jobs:
     hosts:
-      - test-1
+      - cph-app-102
   web-replica:
     hosts:
-      - test-2
-      - test-3
+      - cph-app-102
+      - cph-app-103
     proxy: true
 
 env:
