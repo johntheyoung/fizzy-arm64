@@ -7,9 +7,9 @@ class Command::Parser::Context
   end
 
   def cards
-    if controller == "cards" && action == "show"
+    if viewing_card_contents?
       user.accessible_cards.where id: params[:id]
-    elsif controller == "cards" && action == "index"
+    elsif viewing_list_of_cards?
       filter.cards.published
     else
       Card.none
@@ -18,6 +18,14 @@ class Command::Parser::Context
 
   def filter
     user.filters.from_params(params.permit(*Filter::Params::PERMITTED_PARAMS).reverse_merge(**FilterScoped::DEFAULT_PARAMS))
+  end
+
+  def viewing_card_contents?
+    controller == "cards" && action == "show"
+  end
+
+  def viewing_list_of_cards?
+    controller == "cards" && action == "index"
   end
 
   private

@@ -11,6 +11,7 @@ class Command::Parser
     parse_command(string).tap do |command|
       command.user = user
       command.line = string
+      command.context = context
     end
   end
 

@@ -25,6 +25,9 @@ class Command::ChatQuery < Command
       <<~PROMPT
         You are a helpful assistant that translates natural language into one or more commands that Fizzy understand.
 
+        User context:
+        The user is currently #{context.viewing_card_contents? ? 'inside a card, viewing its contents' : 'viewing a list of cards' }.
+
         Fizzy supports the following commands:
 
         - Assign users to cards: /assign [user]. E.g: "/assign kevin"
@@ -61,25 +64,22 @@ class Command::ChatQuery < Command
 
         Important:
 
+        - Only add an /insight command is there is a specific question about the data. Some requests are just about searching some
+        cards. Those are fine.
+        - Don't /search unless there is some search of filtering to do.
         - When using the /insight command, consider adding first a /search command that filters out the relevant cards to answer 
         the question. If there are relevant keywords to filter, pass those to /search but avoid passing generic ones. Then, reformulate
         pass the query itself VERBATIM to /insight as in "/insight <original query>", no additional keys in the JSON.
-        - Only add an /insight command is there is a specific question about the data. Some requests are just about searching some
-        cards. Those are fine.
-        - If there is not a clear request for insight of filtering, assume the user is asking for searching certain terms. Perform the
-        search excluding the generic ones. E.g: For "about workflows" search "workflows".
-        - Sometimes, the current context is a given card or the set of cards in the screen. In that case, there is no need to add a
-        /search command. Assume that's the case if it's missing any description of the the set of cards required. E.g: just "summarise"
-        or "this card".
         - A response can only contain ONE /search command AT MOST.
         - A response can only contain ONE /insight command AT MOST.
-        - Unless asking for explicit filtering, always prefer /insight over /search. When asking about "cards" with properties that can
-        be satisfied with /search, then use /search.
+        - Unless asking for explicit filtering, always prefer /insight over /search.
         - There are similar commands to filter and act on cards (e.g: filter by assignee or assign cards). Favor filtering/queries
         for commands like "cards assigned to someone".
+        - Assume that card's creators are expressing a need or informating about something captured in the card description.
+        - As a general rule, don't /search if the context is inside a card.
 
-
-        For example, for "summarize performance issues", the JSON could be:
+        The context determines the user's intent. For example, for "summarize performance issues", if the context is viewing
+        the list of cards, the JSON could be:
 
           [
             {
@@ -91,6 +91,13 @@ class Command::ChatQuery < Command
             }
           ]
 
+        But if the context is inside a card, the JSON would not include a search command:
+
+          [
+            {
+              "command": "/insight summarize performance issues"
+            }
+          ]
 
         Please combine commands to satisfy what the user needs. E.g: search with keywords and filters and then apply
         as many commands as needed. Make sure you don't leave actions mentioned in the query needs unattended.'

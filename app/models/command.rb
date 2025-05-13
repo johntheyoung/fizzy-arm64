@@ -3,6 +3,8 @@ class Command < ApplicationRecord
 
   belongs_to :user
 
+  attribute :context
+
   def title
     model_name.human
   end
