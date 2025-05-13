@@ -1,11 +1,11 @@
 @layer components {
+  /* Event column layout
+  /* ------------------------------------------------------------------------ */
+
   .events {
     --events-gap: 1ch;
     --events-border: 1px solid var(--color-ink-lighter);
   }
-
-  /* Day
-  /* ------------------------------------------------------------------------ */
 
   .events__day {
     position: relative;
@@ -86,7 +86,7 @@
     inset-block-start: calc(var(--events-gap) * -2);
     padding-block: calc(var(--events-gap) * 3) var(--events-gap);
     position: sticky;
-    z-index: var(--events-z-column-header);
+    z-index: var(--z-events-column-header);
   }
 
   .events__time-block {
@@ -116,57 +116,18 @@
     text-align: center;
   }
 
-
-
-
-
-
-
-
-
-  /* Column
-  /* ------------------------------------------------------------------------ */
-
-
-
-
-
-
-
-
-
-
-
-  .events__container {
-    --column-gap: clamp(var(--inline-space), 3cqmin, calc(var(--inline-space) * 3));
-    --grid-lines: 1px;
-
-    margin: auto;
-    max-inline-size: min(105ch, 100%);
-  }
-
-
   .events__filter-btn {
     font-weight: 500;
     inline-size: auto;
     margin: auto;
   }
 
-  .events__index {
-    --row-gap: var(--block-space);
-  }
-
-  .events__index-header {
-    min-inline-size: 0;
-
-    h2  {
-      font-weight: 900;
-    }
-  }
-
   .events__popup {
     margin-block-start: var(--block-space-double);
   }
+
+  /* Event
+  /* ------------------------------------------------------------------------ */
 
   .event {
     --column-gap: 0.7ch;
