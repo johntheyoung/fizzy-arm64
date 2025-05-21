@@ -340,7 +340,7 @@
     background-color: var(--color-canvas);
 
     &.card--closed {
-      --card-color: var(--color-card-complete);
+      --card-color: var(--color-card-complete) !important;
     }
 
     .card__collection {

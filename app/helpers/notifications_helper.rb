@@ -24,6 +24,7 @@ module NotificationsHelper
         link_to(notification,
           class: [ "card card--notification", { "card--closed": notification_closed?(notification) } ],
           data: { action: "click->dialog#close", turbo_frame: "_top" },
+          style: { "--card-color:": notification_color(notification) },
           &)
       )
       concat(notification_mark_read_button(notification))
@@ -65,7 +66,15 @@ module NotificationsHelper
     end
 
     def notification_closed?(notification)
+      card_for_notification(notification).closed?
+    end
+
+    def notification_color(notification)
+      card_for_notification(notification).color
+    end
+
+    def card_for_notification(notification)
       eventable = notification.source.eventable
-      eventable.respond_to?(:card) ? eventable.card.closed? : eventable.closed?
+      eventable.respond_to?(:card) ? eventable.card : eventable
     end
 end
