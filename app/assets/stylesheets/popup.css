@@ -49,15 +49,8 @@
     }
 
     &[aria-selected] {
-      background: var(--color-selected);
-    }
-
-    &:has(:focus-visible) {
-      background: var(--color-selected-dark);
-
-      .popup__item {
-        --outline-size: 0;
-      }
+      border-radius: 0.3em;
+      box-shadow: 0 0 0 var(--hover-size) var(--color-selected-dark) inset;
     }
   }
 
@@ -82,7 +75,8 @@
     }
 
     &[aria-selected] {
-      --btn-background: var(--color-selected);
+      border-radius: 0.3em;
+      box-shadow: 0 0 0 var(--hover-size) var(--color-selected-dark) inset;
     }
 
     &:has(input:checked)  {
