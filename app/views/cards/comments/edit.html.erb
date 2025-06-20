@@ -8,7 +8,10 @@
       <div class="comment__body rich-text-content txt-align-start">
         <%= form_with model: [ @card, @comment ], class: "flex flex-column gap full-width",
               data: { controller: "form", action: "keydown.ctrl+enter->form#submit:prevent keydown.meta+enter->form#submit:prevent keydown.esc->form#cancel:stop" } do |form| %>
-          <%= form.rich_textarea :body, required: true, autofocus: true, placeholder: new_comment_placeholder(@card) %>
+          <%= form.rich_textarea :body, required: true, autofocus: true, placeholder: new_comment_placeholder(@card) do %>
+            <%= mentions_prompt(@card.collection) %>
+            <%= cards_prompt %>
+          <% end %>
           <div class="flex gap-half justify-start">
             <%= form.button class: "btn btn--reversed", type: :submit do %>
               <span>Save changes</span>
@@ -18,7 +21,7 @@
             <% end %>
 
             <%= tag.button type: :submit, class: "btn btn--negative flex-item-justify-end", form: dom_id(@comment, :delete_form),
-                data: { turbo_confirm: "Are you sure you want to delete this comment?" } do %>
+                  data: { turbo_confirm: "Are you sure you want to delete this comment?" } do %>
               <%= icon_tag "trash" %>
               <span class="for-screen-reader">Delete</span>
             <% end %>

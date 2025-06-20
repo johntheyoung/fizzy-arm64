@@ -103,6 +103,15 @@ Rails.application.routes.draw do
     resources :pins
   end
 
+  namespace :prompts do
+    resources :cards
+    resources :collections do
+      scope module: :collections do
+        resources :users
+      end
+    end
+  end
+
   namespace :public do
     resources :collections do
       scope module: :collections do
