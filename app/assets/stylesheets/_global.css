@@ -174,9 +174,9 @@
   --color-selected-dark: oklch(var(--lch-blue-light));
   --color-highlight: oklch(var(--lch-yellow-lighter));
   --color-marker: oklch(var(--lch-red-medium));
-  --color-terminal-bg: oklch(var(--lch-blue-darkest));
-  --color-terminal-text: oklch(var(--lch-green-medium));
-  --color-terminal-text-light: oklch(var(--lch-green-light));
+  --color-terminal-bg: var(--color-canvas);
+  --color-terminal-text: oklch(var(--lch-green-dark));
+  --color-terminal-text-light: oklch(var(--lch-green-medium));
 
   /* Colors: Cards */
   --color-card-default: oklch(var(--lch-blue-dark));
@@ -298,7 +298,7 @@
     --lch-pink-lighter: 30% 0.03 346;
     --lch-pink-lightest: 25% 0.011 348;
 
-    --color-terminal-bg: var(--color-black);
+    --color-terminal-bg: var(--color-canvas);
     --color-terminal-text-light: oklch(var(--lch-green-dark));
 
     --shadow: 0 0 0 1px oklch(var(--lch-black) / 0.42),

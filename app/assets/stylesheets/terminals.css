@@ -3,6 +3,7 @@
     --row-gap: 0.2lh;
 
     background-color: var(--color-terminal-bg);
+    border-block-start: 1px solid var(--color-ink-light);
     color: var(--color-terminal-text);
     font-family: var(--font-mono);
     font-size: var(--text-normal);
@@ -156,6 +157,8 @@
   }
 
   .terminal__label {
+    font-weight: 600;
+
     .terminal--busy:is(:not(.terminal--confirmation)) & {
       animation: pulse 1s infinite;
     }
