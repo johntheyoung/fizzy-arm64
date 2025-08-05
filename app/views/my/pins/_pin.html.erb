@@ -1,6 +1,7 @@
 <div class="tray__item" id="<%= dom_id pin %>" data-navigable-list-target="item">
   <%= render "cards/display/preview", card: pin.card %>
-  <%= button_to card_pin_path(pin.card), method: :delete, class: "tray__remove-pin-btn btn btn--circle borderless" do %>
-    <%= icon_tag "pinned" %> <span class="for-screen-reader">Un-pin this card</span>
+  <%= button_to card_pin_path(pin.card), method: :delete, class: "tray__remove-pin-btn btn btn--circle borderless", title: "Un-pin this card" do %>
+    <%= icon_tag "pinned" %>
+    <span class="for-screen-reader">Un-pin this card</span>
   <% end %>
 </div>
