@@ -18,7 +18,9 @@ class Filter < ApplicationRecord
 
   def cards
     @cards ||= begin
-      result = creator.accessible_cards.indexed_by(indexed_by).sorted_by(sorted_by)
+      result = creator.accessible_cards
+      result = result.indexed_by(indexed_by)
+      result = result.sorted_by(sorted_by)
       result = result.where(id: card_ids) if card_ids.present?
       result = result.open unless include_closed_cards?
       result = result.by_engagement_status(engagement_status) if engagement_status.present?

@@ -5,8 +5,8 @@ module Card::Engageable
     has_one :engagement, dependent: :destroy, class_name: "Card::Engagement"
 
     scope :considering, -> { published_or_drafted_by(Current.user).open.where.missing(:engagement) }
-    scope :on_deck,     -> { published.open.joins(:engagement).where(card_engagements: { status: "on_deck" }) }
-    scope :doing,       -> { published.open.joins(:engagement).where(card_engagements: { status: "doing" }) }
+    scope :on_deck,     -> { published.open.joins(:engagement).where(engagement: { status: "on_deck" }) }
+    scope :doing,       -> { published.open.joins(:engagement).where(engagement: { status: "doing" }) }
 
     scope :by_engagement_status, ->(status) do
       case status.to_s
