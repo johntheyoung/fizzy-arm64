@@ -4,4 +4,9 @@ class ApplicationMailer < ActionMailer::Base
   layout "mailer"
   append_view_path Rails.root.join("app/views/mailers")
   helper AvatarsHelper, HtmlHelper
+
+  private
+    def default_url_options
+      super.merge(script_name: "/#{ApplicationRecord.current_tenant}")
+    end
 end
