@@ -29,7 +29,7 @@ accessories:
       user: 1000 # Match the UID of the Rails app, for volume permissions
     volumes:
       - fizzy:/home/beamer
-    cmd: beamer run --retention=1h
+    cmd: beamer run --retention=1h --metrics-port=9000
     port: 5001:5001
     hosts:
       - fizzy-app-101
