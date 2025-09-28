@@ -20,4 +20,10 @@ class Public::CollectionsControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :not_found
   end
+
+  test "show works without authentication" do
+    sign_out
+    get published_collection_path(collections(:writebook))
+    assert_response :success
+  end
 end

@@ -10,6 +10,11 @@ class CollectionsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "show" do
+    get collection_path(collections(:writebook))
+    assert_response :success
+  end
+
   test "create" do
     assert_difference -> { Collection.count }, +1 do
       post collections_path, params: { collection: { name: "Remodel Punch List" } }

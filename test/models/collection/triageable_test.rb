@@ -15,4 +15,3 @@ class Collection::TriageableTest < ActiveSupport::TestCase
     end
   end
 end
-

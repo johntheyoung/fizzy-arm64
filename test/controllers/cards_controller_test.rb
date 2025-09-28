@@ -16,7 +16,7 @@ class CardsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "create" do
-    assert_difference "Card.count", 1 do
+    assert_difference -> { Card.count }, 1 do
       post collection_cards_path(collections(:writebook))
     end
     assert_redirected_to card_path(Card.last)
