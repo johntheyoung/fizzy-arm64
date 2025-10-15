@@ -24,6 +24,7 @@ class Card < ApplicationRecord
     when "stalled" then stalled
     when "postponing_soon" then postponing_soon
     when "closed" then closed.recently_closed_first
+    when "not_now" then postponed.latest
     when "golden" then golden
     when "draft" then drafted
     else all
