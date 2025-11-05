@@ -26,4 +26,23 @@ class User::RoleTest < ActiveSupport::TestCase
     # Creator cannot administer other people's boards
     assert_not users(:david).can_administer_board?(private_board)
   end
+
+  test "can administer card?" do
+    logo_card = cards(:logo)
+    text_card = cards(:text)
+
+    # Admin can administer any card
+    assert users(:kevin).can_administer_card?(logo_card)
+    assert users(:kevin).can_administer_card?(text_card)
+
+    # Creator can administer their own card
+    assert users(:david).can_administer_card?(logo_card)
+
+    # Regular user cannot administer cards they didn't create
+    assert_not users(:jz).can_administer_card?(logo_card)
+    assert_not users(:jz).can_administer_card?(text_card)
+
+    # Creator cannot administer other people's cards
+    assert_not users(:david).can_administer_card?(text_card)
+  end
 end

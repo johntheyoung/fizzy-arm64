@@ -70,4 +70,54 @@ class CardsControllerTest < ActionDispatch::IntegrationTest
     get card_path(cards(:logo))
     assert_response :not_found
   end
+
+  test "admins can see delete button on any card" do
+    get card_path(cards(:logo))
+    assert_response :success
+    assert_match "Delete this card", response.body
+  end
+
+  test "card creators can see delete button on their own cards" do
+    logout_and_sign_in_as :david
+
+    get card_path(cards(:logo))
+    assert_response :success
+    assert_match "Delete this card", response.body
+  end
+
+  test "non-admins cannot see delete button on cards they did not create" do
+    logout_and_sign_in_as :jz
+
+    get card_path(cards(:logo))
+    assert_response :success
+    assert_no_match "Delete this card", response.body
+  end
+
+  test "non-admins cannot delete cards they did not create" do
+    logout_and_sign_in_as :jz
+
+    assert_no_difference -> { Card.count } do
+      delete card_path(cards(:logo))
+    end
+
+    assert_response :forbidden
+  end
+
+  test "card creators can delete their own cards" do
+    logout_and_sign_in_as :david
+
+    assert_difference -> { Card.count }, -1 do
+      delete card_path(cards(:logo))
+    end
+
+    assert_redirected_to boards(:writebook)
+  end
+
+  test "admins can delete any card" do
+    assert_difference -> { Card.count }, -1 do
+      delete card_path(cards(:logo))
+    end
+
+    assert_redirected_to boards(:writebook)
+  end
 end

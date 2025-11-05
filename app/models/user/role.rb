@@ -25,4 +25,8 @@ module User::Role
   def can_administer_board?(board)
     admin? || board.creator == self
   end
+
+  def can_administer_card?(card)
+    admin? || card.creator == self
+  end
 end

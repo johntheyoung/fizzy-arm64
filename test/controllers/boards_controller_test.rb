@@ -97,8 +97,7 @@ class BoardsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "non-admin cannot change all_access on board they don't own" do
-    Session.destroy_all
-    sign_in_as :jz
+    logout_and_sign_in_as :jz
 
     board = boards(:writebook)
     original_all_access = board.all_access
@@ -110,8 +109,7 @@ class BoardsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "non-admin cannot change individual user accesses on board they don't own" do
-    Session.destroy_all
-    sign_in_as :jz
+    logout_and_sign_in_as :jz
 
     board = boards(:writebook)
     original_users = board.users.sort
