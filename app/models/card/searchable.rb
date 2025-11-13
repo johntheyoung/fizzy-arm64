@@ -8,13 +8,13 @@ module Card::Searchable
       query = Search::Query.wrap(query)
 
       if query.valid?
-        table_name = Searchable.search_index_table_name(user.account_id)
-        uuid_type = ActiveRecord::Type.lookup(:uuid, adapter: :trilogy)
-        serialized_board_ids = user.board_ids.map { |id| uuid_type.serialize(id) }
+        index_scope = Search::Index
+          .for_account(user.account_id)
+          .in_boards(user.board_ids)
+          .matching(query.to_s)
+          .select(:card_id)
 
-        joins("INNER JOIN #{table_name} ON #{table_name}.card_id = cards.id AND #{table_name}.board_id = cards.board_id")
-          .where("#{table_name}.board_id IN (?)", serialized_board_ids)
-          .where("MATCH(#{table_name}.content, #{table_name}.title) AGAINST(? IN BOOLEAN MODE)", query.to_s)
+        where(id: index_scope)
           .distinct
       else
         none

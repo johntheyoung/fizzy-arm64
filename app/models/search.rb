@@ -5,6 +5,22 @@ class Search
     "search_"
   end
 
+  def self.serialize_uuid(value)
+    uuid_type.serialize(value)
+  end
+
+  def self.serialize_uuids(values)
+    values.map { |value| serialize_uuid(value) }
+  end
+
+  def self.uuid_type
+    @uuid_type ||= ActiveRecord::Type.lookup(:uuid, adapter: :trilogy)
+  end
+
+  def self.fulltext_match_condition(table_name)
+    "MATCH(#{table_name}.content, #{table_name}.title) AGAINST(? IN BOOLEAN MODE)"
+  end
+
   def initialize(user, query)
     @user = user
     @query = Query.wrap(query)
@@ -27,10 +43,10 @@ class Search
       query_string = query.to_s
       sanitized_raw_query = Search::Result.connection.quote(query.terms)
       table_name = Searchable.search_index_table_name(user.account_id)
-      uuid_type = ActiveRecord::Type.lookup(:uuid, adapter: :trilogy)
-      serialized_board_ids = board_ids.map { |id| uuid_type.serialize(id) }
+      serialized_board_ids = Search::Index.serialize_uuids(board_ids)
 
-      Search::Result.from(table_name)
+      Search::Result
+        .from(table_name)
         .joins("INNER JOIN cards ON #{table_name}.card_id = cards.id")
         .joins("INNER JOIN boards ON cards.board_id = boards.id")
         .where("#{table_name}.board_id IN (?)", serialized_board_ids)
