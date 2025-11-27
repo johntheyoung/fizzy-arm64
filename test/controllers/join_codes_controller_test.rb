@@ -43,6 +43,9 @@ class JoinCodesControllerTest < ActionDispatch::IntegrationTest
     identity = identities(:jz)
     sign_in_as :jz
 
+    assert identity.member_of?(@account), "JZ should be a member of 37s for this test"
+    assert identity.users.find_by!(account: @account).setup?, "JZ's user should be setup for this test"
+
     assert_no_difference -> { Identity.count } do
       assert_no_difference -> { User.count } do
         post join_path(code: @join_code.code, script_name: @account.slug), params: { email_address: identity.email_address }
@@ -50,5 +53,20 @@ class JoinCodesControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_redirected_to landing_url(script_name: @account.slug)
+  end
+
+  test "create for signed-in identity without a user in the account redirects to user setup" do
+    identity = identities(:mike)
+    sign_in_as :mike
+
+    assert_not identity.member_of?(@account), "Mike should not be a member of 37s for this test"
+
+    assert_no_difference -> { Identity.count } do
+      assert_difference -> { User.count }, 1 do
+        post join_path(code: @join_code.code, script_name: @account.slug), params: { email_address: identity.email_address }
+      end
+    end
+
+    assert_redirected_to new_users_join_url(script_name: @account.slug)
   end
 end

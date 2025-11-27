@@ -35,4 +35,14 @@ class UserTest < ActiveSupport::TestCase
     assert_equal "DHH", User.new(name: "David Heinemeier Hansson").initials
     assert_equal "ÉLH", User.new(name: "Éva-Louise Hernández").initials
   end
+
+  test "setup?" do
+    user = users(:kevin)
+
+    user.update!(name: user.identity.email_address)
+    assert_not user.setup?
+
+    user.update!(name: "Kevin")
+    assert user.setup?
+  end
 end

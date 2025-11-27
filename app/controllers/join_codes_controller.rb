@@ -13,9 +13,12 @@ class JoinCodesController < ApplicationController
     identity = Identity.find_or_create_by!(email_address: params.expect(:email_address))
 
     @join_code.redeem { |account| identity.join(account) } unless identity.member_of?(@join_code.account)
+    user = User.active.find_by!(account: @join_code.account, identity: identity)
 
-    if identity == Current.identity
+    if identity == Current.identity && user.setup?
       redirect_to landing_url(script_name: @join_code.account.slug)
+    elsif identity == Current.identity
+      redirect_to new_users_join_url(script_name: @join_code.account.slug)
     else
       terminate_session if Current.identity
 

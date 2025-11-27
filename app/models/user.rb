@@ -25,4 +25,8 @@ class User < ApplicationRecord
       update! active: false, identity: nil
     end
   end
+
+  def setup?
+    name != identity.email_address
+  end
 end
