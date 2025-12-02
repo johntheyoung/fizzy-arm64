@@ -82,10 +82,6 @@
 
   .comment__edit {
     background-color: var(--color-ink-lightest);
-
-    .comment:not(.comment--mine) & {
-      display: none;
-    }
   }
 
   .comment--mine {
