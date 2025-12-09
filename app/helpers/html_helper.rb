@@ -1,6 +1,8 @@
 module HtmlHelper
+  include ERB::Util
+
   def format_html(html)
-    fragment = Nokogiri::HTML.fragment(html)
+    fragment = Nokogiri::HTML5.fragment(html)
 
     auto_link(fragment)
 
@@ -16,14 +18,16 @@ module HtmlHelper
       fragment.traverse do |node|
         next unless auto_linkable_node?(node)
 
-        content = node.text
+        # Take care to escape the html text node, so that the subsequent Nokogiri re-parse doesn't
+        # create tags where there aren't any.
+        content = h(node.text)
         linked_content = content.dup
 
         auto_link_urls(linked_content)
         auto_link_emails(linked_content)
 
         if linked_content != content
-          node.replace(Nokogiri::HTML.fragment(linked_content))
+          node.replace(Nokogiri::HTML5.fragment(linked_content))
         end
       end
     end

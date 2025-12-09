@@ -56,4 +56,12 @@ class HtmlHelperTest < ActionView::TestCase
         format_html("<#{element}>Check this: https://example.com</#{element}>")
     end
   end
+
+  test "preserve escaped HTML containing URLs" do
+    input = 'before text &lt;img src="https://example.com/image.png"&gt; after text'
+    output = format_html(input)
+
+    assert_no_match(/<img/, output, "should not create an img element")
+    assert_includes output, "&lt;img"
+  end
 end
