@@ -288,17 +288,12 @@
     font-size: var(--text-small);
     list-style: none;
     margin: 0;
+    max-height: 200px;
     min-inline-size: var(--lexxy-prompt-min-width);
+    overflow: auto;
     padding: var(--lexxy-prompt-padding);
     visibility: hidden;
     z-index: var(--z-popup);
-
-    max-height: 200px;
-    overflow: scroll;
-  
-    &:is(.lexxy-prompt-menu--visible) {
-      padding: var(--lexxy-prompt-padding);
-    }
   }
 
   .lexxy-prompt-menu--visible {
