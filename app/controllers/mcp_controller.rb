@@ -1,4 +1,12 @@
 class McpController < ActionController::Base
+  JSONRPC_ERROR_CODES = {
+    parse_error: -32700,
+    invalid_request: -32600,
+    method_not_found: -32601,
+    invalid_params: -32602,
+    internal_error: -32603
+  }.freeze
+
   skip_forgery_protection
 
   before_action :authenticate_by_bearer_token
@@ -16,7 +24,7 @@ class McpController < ActionController::Base
       head :accepted
     end
   rescue JSON::ParserError
-    render json: jsonrpc_error(nil, -32700, "Parse error"), status: :bad_request
+    render json: jsonrpc_error(nil, :parse_error, "Parse error"), status: :bad_request
   end
 
   private
@@ -45,7 +53,7 @@ class McpController < ActionController::Base
       when "tools/list"                then handle_tools_list(message)
       when "tools/call"                then handle_tools_call(message)
       else
-        jsonrpc_error(message["id"], -32601, "Method not found")
+        jsonrpc_error(message["id"], :method_not_found, "Method not found")
       end
     end
 
@@ -65,7 +73,7 @@ class McpController < ActionController::Base
       tool_class = Mcp::Server.find_tool(tool_name)
 
       if tool_class.nil?
-        return jsonrpc_error(message["id"], -32602, "Unknown tool: #{tool_name}")
+        return jsonrpc_error(message["id"], :invalid_params, "Unknown tool: #{tool_name}")
       end
 
       result = tool_class.call(arguments)
@@ -77,6 +85,6 @@ class McpController < ActionController::Base
     end
 
     def jsonrpc_error(id, code, message)
-      { jsonrpc: "2.0", id: id, error: { code: code, message: message } }
+      { jsonrpc: "2.0", id: id, error: { code: JSONRPC_ERROR_CODES[code], message: message } }
     end
 end
