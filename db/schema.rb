@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.2].define(version: 2025_12_23_000001) do
+ActiveRecord::Schema[8.2].define(version: 2025_12_23_000002) do
   create_table "accesses", id: :uuid, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.datetime "accessed_at"
     t.uuid "account_id", null: false
@@ -23,18 +23,6 @@ ActiveRecord::Schema[8.2].define(version: 2025_12_23_000001) do
     t.index ["board_id", "user_id"], name: "index_accesses_on_board_id_and_user_id", unique: true
     t.index ["board_id"], name: "index_accesses_on_board_id"
     t.index ["user_id"], name: "index_accesses_on_user_id"
-  end
-
-  create_table "account_exports", id: :uuid, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.uuid "account_id", null: false
-    t.datetime "completed_at"
-    t.datetime "created_at", null: false
-    t.string "status", default: "pending", null: false
-    t.string "type"
-    t.datetime "updated_at", null: false
-    t.uuid "user_id", null: false
-    t.index ["account_id"], name: "index_account_exports_on_account_id"
-    t.index ["user_id"], name: "index_account_exports_on_user_id"
   end
 
   create_table "account_external_id_sequences", id: :uuid, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -295,6 +283,19 @@ ActiveRecord::Schema[8.2].define(version: 2025_12_23_000001) do
     t.index ["board_id"], name: "index_events_on_board_id"
     t.index ["creator_id"], name: "index_events_on_creator_id"
     t.index ["eventable_type", "eventable_id"], name: "index_events_on_eventable"
+  end
+
+  create_table "exports", id: :uuid, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.uuid "account_id", null: false
+    t.datetime "completed_at"
+    t.datetime "created_at", null: false
+    t.string "status", default: "pending", null: false
+    t.string "type"
+    t.datetime "updated_at", null: false
+    t.uuid "user_id", null: false
+    t.index ["account_id"], name: "index_exports_on_account_id"
+    t.index ["type"], name: "index_exports_on_type"
+    t.index ["user_id"], name: "index_exports_on_user_id"
   end
 
   create_table "filters", id: :uuid, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
