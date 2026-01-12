@@ -748,8 +748,8 @@
   .cards--maybe.is-collapsed:has(.bubble:not([hidden])) .cards__transition-container,
   .cards--doing.is-collapsed:has(.bubble:not([hidden])) .cards__transition-container {
     --bubble-color: var(--card-color, oklch(var(--lch-blue-medium)));
+    --bubble-opacity: 75%;
     --bubble-shape: 54% 46% 61% 39% / 57% 49% 51% 43%;
-    --bubble-opacity: 50%;
 
     &:before {
       background: radial-gradient(
