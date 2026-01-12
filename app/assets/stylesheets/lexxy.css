@@ -24,6 +24,7 @@
   }
 
   .lexxy-content__table-wrapper {
+    margin: 0;
     margin-block: 1ch;
     overflow-x: auto;
   }
