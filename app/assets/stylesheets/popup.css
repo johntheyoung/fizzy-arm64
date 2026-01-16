@@ -123,6 +123,10 @@
       }
     }
 
+    &:has(.popup__btn[disabled]) {
+      pointer-events: none;
+    }
+
     .checked {
       display: none;
     }
@@ -155,7 +159,7 @@
     max-inline-size: 100%;
     padding: var(--inline-space-half) var(--popup-item-padding-inline);
     text-align: start;
-    
+
     &:focus-visible {
       z-index: 1;
     }
